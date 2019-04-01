@@ -41,7 +41,12 @@ var
       skip: null
     }, options || {});
     if (fs.existsSync(path.resolve(string))) {
-      string = fs.readFileSync(string).toString();
+      try {
+        string = fs.readFileSync(string).toString()
+      } catch (error) {
+        console.log('empty file skipped!');
+        return '';
+      }
     }
     var css = css_parse( string );
     css.stylesheet.rules = processRules( css.stylesheet.rules, options );
